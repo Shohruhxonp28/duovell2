@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Search, Compass, RefreshCw } from 'lucide-react';
 import { Place, PlaceFilterOptions } from '@/types';
@@ -9,7 +9,7 @@ import { useLocation } from '@/context/LocationContext';
 import { PlaceCard } from '@/components/place/PlaceCard';
 import { PlaceFilters } from '@/components/place/PlaceFilters';
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
   const queryParam = searchParams.get('q');
@@ -77,5 +77,20 @@ export default function SearchPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center py-12 text-slate-400 gap-2">
+          <RefreshCw className="w-5 h-5 animate-spin" />
+          <span className="text-xs font-medium">Loading search...</span>
+        </div>
+      }
+    >
+      <SearchContent />
+    </Suspense>
   );
 }
