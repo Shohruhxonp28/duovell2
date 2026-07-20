@@ -1,0 +1,1 @@
+# Duovel Django App Initialization
