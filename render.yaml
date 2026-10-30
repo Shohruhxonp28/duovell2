@@ -17,3 +17,4 @@ services:
         value: "*"
       - key: BOT_TOKEN
         sync: false
+

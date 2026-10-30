@@ -5,22 +5,26 @@ echo "=========================================="
 echo "  STARTING DUOVEL ALL-IN-ONE SERVICE      "
 echo "=========================================="
 
-# Add portable node to PATH if downloaded during build
-if [ -d "$PWD/node-v20.12.2-linux-x64/bin" ]; then
-  export PATH="$PWD/node-v20.12.2-linux-x64/bin:$PATH"
+# Find Python executable
+if command -v python3 &> /dev/null; then
+  PY_BIN="python3"
+elif command -v python &> /dev/null; then
+  PY_BIN="python"
+else
+  PY_BIN="python3"
 fi
 
 # 1. Start Django API Backend on internal 127.0.0.1:8000
 echo ">>> Starting Django Backend on http://127.0.0.1:8000..."
 cd duovel-backend
-gunicorn duovel.wsgi:application --bind 127.0.0.1:8000 --workers 2 --timeout 120 &
+$PY_BIN -m gunicorn duovel.wsgi:application --bind 127.0.0.1:8000 --workers 2 --timeout 120 &
 cd ..
 
 # 2. Start Telegram Bot in background (if BOT_TOKEN provided)
 if [ -n "$BOT_TOKEN" ] && [ "$BOT_TOKEN" != "mock_bot_token_for_dev" ]; then
   echo ">>> Starting Telegram Bot in background..."
   cd duovel-bot
-  python main.py &
+  $PY_BIN main.py &
   cd ..
 else
   echo ">>> Note: BOT_TOKEN not provided, skipping Telegram Bot."

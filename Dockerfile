@@ -33,3 +33,4 @@ RUN chmod +x build.sh start.sh
 EXPOSE 10000
 
 CMD ["bash", "start.sh"]
+

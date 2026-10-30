@@ -6,30 +6,49 @@ echo "=========================================="
 echo "  DUOVEL ALL-IN-ONE BUILD SCRIPT (RENDER) "
 echo "=========================================="
 
-# 1. Install Python packages for backend & bot
-echo ">>> Installing Backend dependencies..."
-pip install -r duovel-backend/requirements.txt
-echo ">>> Installing Bot dependencies..."
-pip install -r duovel-bot/requirements.txt
+# Find Python executable
+if command -v python3 &> /dev/null; then
+  PY_BIN="python3"
+elif command -v python &> /dev/null; then
+  PY_BIN="python"
+else
+  echo "Python not found, installing python3..."
+  apt-get update && apt-get install -y python3 python3-pip || true
+  PY_BIN="python3"
+fi
 
-# 2. Run Django migrations, staticfiles collection & seed data
+echo ">>> Using Python: $($PY_BIN --version 2>&1)"
+
+# Ensure pip is available
+if ! $PY_BIN -m pip --version &> /dev/null; then
+  echo ">>> pip not found, bootstrapping pip..."
+  curl -sS https://bootstrap.pypa.io/get-pip.py | $PY_BIN
+fi
+
+# 1. Install Backend & Bot requirements
+echo ">>> Installing Backend dependencies..."
+$PY_BIN -m pip install -r duovel-backend/requirements.txt
+echo ">>> Installing Bot dependencies..."
+$PY_BIN -m pip install -r duovel-bot/requirements.txt
+
+# 2. Run Django setup
 echo ">>> Setting up Django Database & Staticfiles..."
 cd duovel-backend
-python manage.py collectstatic --no-input
-python manage.py migrate
-python manage.py seed_data
+$PY_BIN manage.py collectstatic --no-input
+$PY_BIN manage.py migrate
+$PY_BIN manage.py seed_data
 cd ..
 
-# 3. Ensure Node.js & npm exist (auto-download portable Node if in Render Python environment)
+# 3. Ensure Node.js exists
 if ! command -v node &> /dev/null; then
-  echo ">>> Node.js not detected in PATH. Downloading portable Node.js v20..."
+  echo ">>> Node.js not detected in PATH. Downloading portable Node.js..."
   NODE_VER="v20.12.2"
   curl -sL https://nodejs.org/dist/${NODE_VER}/node-${NODE_VER}-linux-x64.tar.xz | tar -xJ
   export PATH="$PWD/node-${NODE_VER}-linux-x64/bin:$PATH"
 fi
 
-echo ">>> Node version: $(node -v)"
-echo ">>> NPM version: $(npm -v)"
+echo ">>> Using Node: $(node -v)"
+echo ">>> Using NPM: $(npm -v)"
 
 # 4. Build Next.js Mini App
 echo ">>> Building Next.js Mini App..."
