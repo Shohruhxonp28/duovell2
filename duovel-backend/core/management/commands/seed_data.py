@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from apps.categories.models import Category
-from apps.places.models import Place, PlaceImage
+from apps.places.models import Place
 
 class Command(BaseCommand):
     help = 'Seeds initial categories and sample places'
@@ -9,20 +9,19 @@ class Command(BaseCommand):
         self.stdout.write("Seeding categories...")
 
         categories_data = [
-            {'name': 'Restaurants', 'slug': 'restaurants', 'icon': 'Utensils'},
-            {'name': 'Cafes', 'slug': 'cafes', 'icon': 'Coffee'},
-            {'name': 'Clinics', 'slug': 'clinics', 'icon': 'Stethoscope'},
-            {'name': 'Pharmacies', 'slug': 'pharmacies', 'icon': 'Pill'},
-            {'name': 'Auto Services', 'slug': 'auto-services', 'icon': 'Car'},
-            {'name': 'Beauty Salons', 'slug': 'beauty-salons', 'icon': 'Scissors'},
-            {'name': 'Shopping Centers', 'slug': 'shopping-centers', 'icon': 'ShoppingBag'},
-            {'name': 'Fitness Clubs', 'slug': 'fitness-clubs', 'icon': 'Dumbbell'},
-            {'name': 'Hotels', 'slug': 'hotels', 'icon': 'Hotel'},
+            {'name': 'Taksi', 'slug': 'taksi', 'icon': 'Car'},
+            {'name': 'Restoran va Kafe', 'slug': 'restoran-kafe', 'icon': 'Utensils'},
+            {'name': 'Mehmonxona', 'slug': 'mehmonxona', 'icon': 'Hotel'},
+            {'name': 'Game club', 'slug': 'game-club', 'icon': 'Gamepad2'},
+            {'name': 'Shifoxona', 'slug': 'shifoxona', 'icon': 'Stethoscope'},
+            {'name': 'Bozor va do\'kon', 'slug': 'bozor-dokon', 'icon': 'ShoppingBag'},
+            {'name': 'Bog\' va Parklar', 'slug': 'bog-parklar', 'icon': 'Trees'},
+            {'name': 'Bank va Bankamat', 'slug': 'bank-bankamat', 'icon': 'CreditCard'},
         ]
 
         cat_objs = {}
         for cat in categories_data:
-            obj, created = Category.objects.get_or_create(
+            obj, created = Category.objects.update_or_create(
                 slug=cat['slug'],
                 defaults={'name': cat['name'], 'icon': cat['icon']}
             )
@@ -34,126 +33,126 @@ class Command(BaseCommand):
 
         sample_places = [
             {
-                'name': 'Gourmet House Restaurant',
-                'category': cat_objs['restaurants'],
-                'description': 'Fine dining restaurant serving exquisite Mediterranean and European cuisine.',
-                'address': 'Navoi Avenue 14, City Center',
+                'name': 'XON Restaurant & Hotel',
+                'category': cat_objs['restoran-kafe'],
+                'description': 'Hashamatli XON restorani va 24/7 qulay mehmonxona majmuasi. Milliy va yevropa taomlari, shinam xonalar va a\'lo darajadagi servis.',
+                'address': 'Toshkent sh., Amir Temur shox ko\'chasi, 45-uy',
                 'latitude': 41.311081,
                 'longitude': 69.240562,
-                'phone': '+998 71 200 1122',
-                'website': 'https://gourmethouse.example.com',
-                'working_hours': {'all': '10:00-23:00'},
-                'rating': 4.8,
-                'status': 'APPROVED'
-            },
-            {
-                'name': 'Artisan Coffee Roasters',
-                'category': cat_objs['cafes'],
-                'description': 'Specialty espresso, filter coffee, artisan pastries, and cozy atmosphere.',
-                'address': 'Amir Temur Street 42',
-                'latitude': 41.315500,
-                'longitude': 69.278000,
-                'phone': '+998 71 233 4455',
-                'website': 'https://artisancoffee.example.com',
-                'working_hours': {'all': '08:00-22:00'},
+                'phone': '+998 91 234 56 78',
+                'website': 'https://xon-complex.uz',
+                'working_hours': {'restaurant': '11:00 - 00:00', 'hotel': '24/7', 'mon': '11:00-00:00', 'all': '24/7'},
                 'rating': 4.9,
                 'status': 'APPROVED'
             },
             {
-                'name': 'Central Medical Clinic',
-                'category': cat_objs['clinics'],
-                'description': 'Modern diagnostic clinic with multi-specialty doctors and laboratory.',
-                'address': 'Sharof Rashidov Avenue 8',
-                'latitude': 41.305000,
-                'longitude': 69.260000,
-                'phone': '+998 71 150 0099',
-                'website': 'https://centralmed.example.com',
-                'working_hours': {'mon': '08:00-20:00', 'sat': '09:00-15:00'},
+                'name': 'Kafe Afruza',
+                'category': cat_objs['restoran-kafe'],
+                'description': 'Shinam muhit, maxsus kofe, mazali desertlar va qulay ish joyi. Do\'stlar bilan uchrashuvlar uchun eng yaxshi maskan.',
+                'address': 'Toshkent sh., Mirobod tumani, Afrosiyob ko\'chasi, 12',
+                'latitude': 41.299496,
+                'longitude': 69.263884,
+                'phone': '+998 90 123 45 67',
+                'website': 'https://afruza-cafe.uz',
+                'working_hours': {'mon': '11:00 - 00:00', 'all': '11:00 - 00:00'},
+                'rating': 4.8,
+                'status': 'APPROVED'
+            },
+            {
+                'name': 'Play Game Club',
+                'category': cat_objs['game-club'],
+                'description': 'Eng so\'nggi RTX 4080 videokartali kuchli kompyuterlar, PS5 zallari, VIP xonalar va kibersport turnirlari.',
+                'address': 'Toshkent sh., Navoiy ko\'chasi, 28-uy',
+                'latitude': 41.320450,
+                'longitude': 69.245890,
+                'phone': '+998 93 456 78 90',
+                'website': 'https://playclub.uz',
+                'working_hours': {'mon': '10:00 - 23:00', 'all': '10:00 - 23:00'},
                 'rating': 4.7,
                 'status': 'APPROVED'
             },
             {
-                'name': '24/7 City Express Pharmacy',
-                'category': cat_objs['pharmacies'],
-                'description': 'Round the clock pharmacy offering rare medications and health care products.',
-                'address': 'Mustaqillik Avenue 88',
-                'latitude': 41.320000,
-                'longitude': 69.290000,
-                'phone': '+998 71 252 0000',
-                'website': 'https://expresspharm.example.com',
-                'working_hours': {'all': '24/7'},
+                'name': 'VIP Bilyard Club',
+                'category': cat_objs['game-club'],
+                'description': 'Professional bilyard stollari, shinam VIP zallar, kofe va yaxna ichimliklar. Do\'stona muhit.',
+                'address': 'Toshkent sh., Mustaqillik shoh ko\'chasi, 15',
+                'latitude': 41.315600,
+                'longitude': 69.281200,
+                'phone': '+998 94 567 89 01',
+                'website': '',
+                'working_hours': {'mon': '11:00 - 01:00', 'all': '11:00 - 01:00'},
                 'rating': 4.6,
                 'status': 'APPROVED'
             },
             {
-                'name': 'Apex Auto Care & Diagnostics',
-                'category': cat_objs['auto-services'],
-                'description': 'Full service auto repair, tire alignment, detailing, and oil change.',
-                'address': 'Little Ring Road 105',
-                'latitude': 41.290000,
-                'longitude': 69.220000,
-                'phone': '+998 90 999 8877',
-                'website': 'https://apexauto.example.com',
-                'working_hours': {'all': '09:00-19:00'},
+                'name': 'Shifoxona Medion Clinic',
+                'category': cat_objs['shifoxona'],
+                'description': 'Zamonaviy tibbiy diagnostika markazi, laboratoriya, tajribali shifokorlar va 24/7 tez tibbiy yordam.',
+                'address': 'Toshkent sh., Shayxontohur tumani, Zulfiyaxonim ko\'chasi, 18',
+                'latitude': 41.325600,
+                'longitude': 69.255400,
+                'phone': '+998 71 200 00 03',
+                'website': 'https://medion.uz',
+                'working_hours': {'mon': '24/7', 'all': '24/7'},
+                'rating': 4.9,
+                'status': 'APPROVED'
+            },
+            {
+                'name': 'Chorsu Bozori & Do\'konlar',
+                'category': cat_objs['bozor-dokon'],
+                'description': 'Sharqona mashhur bozor, yangi meva-sabzavotlar, qandolatlar, suvenirlar va zamonaviy savdo do\'konlari.',
+                'address': 'Toshkent sh., Navoiy va Beruniy chorrahasi',
+                'latitude': 41.327500,
+                'longitude': 69.235600,
+                'phone': '+998 71 242 12 34',
+                'website': '',
+                'working_hours': {'mon': '08:00 - 19:00', 'all': '08:00 - 19:00'},
+                'rating': 4.7,
+                'status': 'APPROVED'
+            },
+            {
+                'name': 'Ecopark Bog\'i',
+                'category': cat_objs['bog-parklar'],
+                'description': 'Sayr qilish, yugurish, bolalar maydonchasi va dam olish uchun shahar markazidagi yashil bog\'.',
+                'address': 'Toshkent sh., Mirzo Ulug\'bek tumani, Oqqo\'rg\'on ko\'chasi',
+                'latitude': 41.318800,
+                'longitude': 69.296500,
+                'phone': '+998 71 267 89 00',
+                'website': '',
+                'working_hours': {'mon': '06:00 - 23:00', 'all': '06:00 - 23:00'},
+                'rating': 4.8,
+                'status': 'APPROVED'
+            },
+            {
+                'name': 'Milliy Bank va 24/7 Bankamat',
+                'category': cat_objs['bank-bankamat'],
+                'description': '24/7 valyuta ayirboshlash bankomatlari, Humo, Uzcard, Visa, Mastercard xizmatlari va kredit bo\'limi.',
+                'address': 'Toshkent sh., Amir Temur shox ko\'chasi, 101',
+                'latitude': 41.328900,
+                'longitude': 69.284200,
+                'phone': '+998 71 148 00 10',
+                'website': 'https://nbu.uz',
+                'working_hours': {'mon': '24/7', 'all': '24/7'},
                 'rating': 4.5,
                 'status': 'APPROVED'
             },
             {
-                'name': 'Glamour Beauty Studio',
-                'category': cat_objs['beauty-salons'],
-                'description': 'Hair styling, manicure, spa treatments, and professional makeup services.',
-                'address': 'Oybek Street 22',
-                'latitude': 41.298000,
-                'longitude': 69.270000,
-                'phone': '+998 71 256 7890',
-                'website': 'https://glamourstudio.example.com',
-                'working_hours': {'all': '10:00-20:00'},
+                'name': 'City Taxi Toshkent',
+                'category': cat_objs['taksi'],
+                'description': 'Shahar bo\'ylab tezkor va qulay taksi xizmati. Ekonom, Komfort va Biznes tariflari.',
+                'address': 'Toshkent sh., Shota Rustaveli ko\'chasi, 53',
+                'latitude': 41.285400,
+                'longitude': 69.248900,
+                'phone': '+998 71 200 55 55',
+                'website': '',
+                'working_hours': {'mon': '24/7', 'all': '24/7'},
                 'rating': 4.8,
-                'status': 'APPROVED'
-            },
-            {
-                'name': 'Grand City Mall',
-                'category': cat_objs['shopping-centers'],
-                'description': 'Multi-level shopping center with international fashion brands, food court, and cinema.',
-                'address': 'Sebzar Street 1',
-                'latitude': 41.335000,
-                'longitude': 69.255000,
-                'phone': '+998 71 202 0202',
-                'website': 'https://grandcitymall.example.com',
-                'working_hours': {'all': '10:00-22:00'},
-                'rating': 4.9,
-                'status': 'APPROVED'
-            },
-            {
-                'name': 'Pulse Elite Fitness & Spa',
-                'category': cat_objs['fitness-clubs'],
-                'description': 'Modern gym with Olympic pool, sauna, group fitness classes, and personal trainers.',
-                'address': 'Nukus Street 50',
-                'latitude': 41.293000,
-                'longitude': 69.282000,
-                'phone': '+998 71 280 5050',
-                'website': 'https://pulsefitness.example.com',
-                'working_hours': {'all': '07:00-23:00'},
-                'rating': 4.8,
-                'status': 'APPROVED'
-            },
-            {
-                'name': 'Silk Road Palace Hotel',
-                'category': cat_objs['hotels'],
-                'description': 'Luxury 5-star hotel featuring rooftop restaurant, spa, and conference facilities.',
-                'address': 'Islam Karimov Street 15',
-                'latitude': 41.308000,
-                'longitude': 69.268000,
-                'phone': '+998 71 120 7000',
-                'website': 'https://silkroadpalace.example.com',
-                'working_hours': {'all': '24/7'},
-                'rating': 4.9,
                 'status': 'APPROVED'
             }
         ]
 
         for p_data in sample_places:
-            Place.objects.get_or_create(
+            Place.objects.update_or_create(
                 name=p_data['name'],
                 defaults=p_data
             )
