@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { User, Building2, Moon, Sun, MapPin, ChevronRight, ShieldCheck } from 'lucide-react';
+import { User, Building2, Moon, Sun, MapPin, ChevronRight, ShieldCheck, Heart, Sparkles } from 'lucide-react';
 import { useTelegram } from '@/context/TelegramContext';
 import { useTheme } from '@/context/ThemeContext';
 import { useLocation } from '@/context/LocationContext';
@@ -14,52 +14,57 @@ export default function ProfilePage() {
   const { hasPermission, requestLocation } = useLocation();
 
   return (
-    <div className="space-y-5 pb-6">
+    <div className="space-y-4 pb-8 animate-in fade-in duration-200">
       {/* Profile Header */}
-      <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-4">
-        <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-bold text-xl shadow-md shadow-blue-500/20">
+      <div className="bg-white dark:bg-slate-800/95 p-5 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-4">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center font-extrabold text-2xl shadow-lg shadow-emerald-500/25">
           {user?.first_name ? user.first_name[0].toUpperCase() : 'U'}
         </div>
-        <div>
-          <h2 className="font-bold text-lg text-slate-900 dark:text-white leading-tight">
-            {user?.first_name || 'Guest User'} {user?.last_name || ''}
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            {user?.username ? `@${user.username}` : `Telegram ID: ${user?.telegram_id || 'N/A'}`}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h2 className="font-extrabold text-lg text-slate-900 dark:text-white leading-tight truncate">
+              {user?.first_name || 'Foydalanuvchi'} {user?.last_name || ''}
+            </h2>
+            <span className="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold">
+              Faol
+            </span>
+          </div>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">
+            {user?.username ? `@${user.username}` : `Telegram ID: ${user?.telegram_id || 'Mehmon'}`}
           </p>
         </div>
       </div>
 
       {/* Business Section Card */}
-      <div className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-5 rounded-3xl shadow-lg shadow-blue-500/20 space-y-3">
-        <div className="flex items-center gap-2 font-bold text-sm">
-          <Building2 className="w-5 h-5" />
-          <span>Business Owner Portal</span>
+      <div className="relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-600 to-slate-900 text-white p-5 rounded-3xl shadow-xl shadow-emerald-600/20 space-y-3">
+        <div className="flex items-center gap-2 font-black text-sm tracking-wide">
+          <Building2 className="w-5 h-5 text-emerald-300" />
+          <span>Biznes egalari uchun</span>
         </div>
-        <p className="text-xs text-blue-100 leading-relaxed">
-          Own a restaurant, cafe, clinic or service? Submit your business to Duovel to get discovered by nearby customers!
+        <p className="text-xs text-emerald-50/90 leading-relaxed">
+          Restoran, kafe, mehmonxona, klinika yoki o'z xizmatingiz bormi? Duovel platformasiga qo'shiling va yaqin atrofdagi yangi mijozlarni jalb qiling!
         </p>
 
-        <div className="flex items-center gap-2 pt-2">
+        <div className="flex items-center gap-2.5 pt-2">
           <Link
             href="/business/register"
             onClick={() => triggerHaptic('selection')}
-            className="flex-1 py-2.5 px-4 rounded-xl bg-white text-blue-700 font-bold text-xs text-center shadow-md active:scale-98 transition-transform"
+            className="flex-1 py-2.5 px-4 rounded-xl bg-white text-emerald-800 font-extrabold text-xs text-center shadow-md active:scale-98 transition-transform"
           >
-            Register Business
+            Biznesni ro'yxatdan o'tkazish
           </Link>
           <Link
             href="/business/status"
             onClick={() => triggerHaptic('selection')}
-            className="py-2.5 px-4 rounded-xl bg-blue-500/30 text-white font-semibold text-xs border border-white/20 hover:bg-blue-500/40 transition-colors"
+            className="py-2.5 px-3.5 rounded-xl bg-white/20 text-white font-bold text-xs border border-white/25 hover:bg-white/30 transition-colors"
           >
-            My Submissions
+            Arizalar
           </Link>
         </div>
       </div>
 
       {/* Preferences Settings List */}
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-2 border border-slate-100 dark:border-slate-800 shadow-sm divide-y divide-slate-100 dark:divide-slate-700/50 text-xs">
+      <div className="bg-white dark:bg-slate-800/95 rounded-3xl p-2 border border-slate-100 dark:border-slate-800 shadow-sm divide-y divide-slate-100 dark:divide-slate-700/50 text-xs">
         <button
           onClick={() => {
             triggerHaptic('selection');
@@ -69,9 +74,11 @@ export default function ProfilePage() {
         >
           <div className="flex items-center gap-3">
             {theme === 'light' ? <Moon className="w-4.5 h-4.5 text-slate-500" /> : <Sun className="w-4.5 h-4.5 text-amber-400" />}
-            <span className="font-semibold text-slate-900 dark:text-white">Dark Mode</span>
+            <span className="font-bold text-slate-900 dark:text-white">Tungi rejim (Dark Mode)</span>
           </div>
-          <span className="text-slate-400 capitalize">{theme}</span>
+          <span className="text-slate-400 font-medium capitalize">
+            {theme === 'dark' ? 'Yoqilgan' : 'O\'chirilgan'}
+          </span>
         </button>
 
         <button
@@ -83,16 +90,28 @@ export default function ProfilePage() {
         >
           <div className="flex items-center gap-3">
             <MapPin className="w-4.5 h-4.5 text-slate-500" />
-            <span className="font-semibold text-slate-900 dark:text-white">Location Permissions</span>
+            <span className="font-bold text-slate-900 dark:text-white">Geolokatsiya (GPS)</span>
           </div>
-          <span className={`font-semibold ${hasPermission ? 'text-emerald-500' : 'text-amber-500'}`}>
-            {hasPermission ? 'Granted' : 'Request'}
+          <span className={`font-bold ${hasPermission ? 'text-emerald-500' : 'text-amber-500'}`}>
+            {hasPermission ? 'Faol (Ruxsat berilgan)' : 'GPS yoqish'}
           </span>
         </button>
+
+        <Link
+          href="/saved"
+          onClick={() => triggerHaptic('selection')}
+          className="w-full flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-2xl transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <Heart className="w-4.5 h-4.5 text-rose-500" />
+            <span className="font-bold text-slate-900 dark:text-white">Saqlangan sevimli joylar</span>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-400" />
+        </Link>
       </div>
 
-      <div className="text-center text-[11px] text-slate-400 py-2">
-        Duovel Telegram Mini App v1.0.0 • No ads • No payments
+      <div className="text-center text-[11px] text-slate-400 py-3">
+        Duovel Telegram Mini App v2.0 • Reklamasiz va bepul
       </div>
     </div>
   );

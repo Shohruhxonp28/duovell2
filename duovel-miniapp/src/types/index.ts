@@ -18,6 +18,15 @@ export interface Category {
   places_count?: number;
 }
 
+export interface Review {
+  id: string;
+  user_name: string;
+  avatar_emoji?: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
 export interface Place {
   id: number;
   name: string;
@@ -36,6 +45,7 @@ export interface Place {
   is_saved: boolean;
   primary_image?: string;
   images?: string[];
+  reviews?: Review[];
   google_maps_url?: string;
   yandex_maps_url?: string;
 }
@@ -61,4 +71,17 @@ export interface BusinessRegistrationForm {
   phone: string;
   website: string;
   working_hours: Record<string, string>;
+}
+
+export interface BookingOrder {
+  id: string;
+  place_id: number;
+  place_name: string;
+  category_name: string;
+  date: string;
+  time: string;
+  guests_count?: number;
+  phone: string;
+  status: 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED';
+  notes?: string;
 }

@@ -2,13 +2,29 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Compass, Utensils, Coffee, Stethoscope, Pill, Car, Scissors, ShoppingBag, Dumbbell, Hotel, ChevronRight } from 'lucide-react';
+import { 
+  Compass, 
+  Utensils, 
+  Coffee, 
+  Stethoscope, 
+  Pill, 
+  Car, 
+  Scissors, 
+  ShoppingBag, 
+  ShoppingCart, 
+  Dumbbell, 
+  Hotel, 
+  Gamepad2, 
+  Trees, 
+  Landmark, 
+  ChevronRight 
+} from 'lucide-react';
 import { Category } from '@/types';
 import { categoriesApi } from '@/lib/api';
 import { triggerHaptic } from '@/lib/telegram';
 
 const ICON_MAP: Record<string, any> = {
-  Utensils, Coffee, Stethoscope, Pill, Car, Scissors, ShoppingBag, Dumbbell, Hotel
+  Utensils, Coffee, Stethoscope, Pill, Car, Scissors, ShoppingBag, ShoppingCart, Dumbbell, Hotel, Gamepad2, Trees, Landmark
 };
 
 export default function CategoriesPage() {
@@ -23,11 +39,11 @@ export default function CategoriesPage() {
   }, []);
 
   return (
-    <div className="space-y-4 pb-6">
+    <div className="space-y-4 pb-8 animate-in fade-in duration-200">
       <div>
-        <h1 className="text-xl font-bold text-slate-900 dark:text-white">Explore Categories</h1>
+        <h1 className="text-xl font-black text-slate-900 dark:text-white">Barcha toifalar</h1>
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-          Select a category to view top places and services near you.
+          O'zingizga kerakli xizmat turini tanlang
         </p>
       </div>
 
@@ -46,19 +62,19 @@ export default function CategoriesPage() {
                 key={cat.id}
                 href={`/search?category=${cat.slug}`}
                 onClick={() => triggerHaptic('selection')}
-                className="bg-white dark:bg-slate-800 p-4 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group"
+                className="bg-white dark:bg-slate-800/95 p-4 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group active:scale-95"
               >
-                <div className="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Icon className="w-5.5 h-5.5" />
+                <div className="w-11 h-11 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Icon className="w-6 h-6" />
                 </div>
 
                 <div className="mt-4 flex items-end justify-between">
                   <div>
-                    <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                       {cat.name}
                     </h3>
                     <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                      {cat.places_count ?? 0} places
+                      Joylar mavjud
                     </p>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />

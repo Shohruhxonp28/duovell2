@@ -40,11 +40,11 @@ function SearchContent() {
   }, [filters.category, filters.search, filters.open_now, filters.min_rating, filters.sort_by, latitude, longitude]);
 
   return (
-    <div className="space-y-4 pb-6">
+    <div className="space-y-4 pb-8 animate-in fade-in duration-200">
       <div>
-        <h1 className="text-xl font-bold text-slate-900 dark:text-white">Search Places</h1>
+        <h1 className="text-xl font-black text-slate-900 dark:text-white">Joy qidirish</h1>
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-          Find nearby places by keyword, category or rating.
+          Nom, toifa yoki reyting bo'yicha qidiring
         </p>
       </div>
 
@@ -52,25 +52,25 @@ function SearchContent() {
 
       <div className="flex items-center justify-between pt-1">
         <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-          Showing {places.length} results
+          {places.length} ta natija ko'rsatilmoqda
         </span>
       </div>
 
       {isLoading ? (
         <div className="flex items-center justify-center py-12 text-slate-400 gap-2">
-          <RefreshCw className="w-5 h-5 animate-spin" />
-          <span className="text-xs font-medium">Searching...</span>
+          <RefreshCw className="w-5 h-5 animate-spin text-emerald-500" />
+          <span className="text-xs font-semibold">Qidirilmoqda...</span>
         </div>
       ) : places.length === 0 ? (
-        <div className="bg-white dark:bg-slate-800/50 rounded-3xl p-8 text-center space-y-3 border border-slate-100 dark:border-slate-800">
+        <div className="bg-white dark:bg-slate-800/60 rounded-3xl p-8 text-center space-y-3 border border-slate-100 dark:border-slate-800">
           <Search className="w-8 h-8 text-slate-400 mx-auto" />
-          <h3 className="font-bold text-slate-900 dark:text-white text-sm">No Results Found</h3>
+          <h3 className="font-bold text-slate-900 dark:text-white text-sm">Natija topilmadi</h3>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Try searching for a different keyword or removing filters.
+            Boshqa so'z bilan qidirib ko'ring yoki filtrlarni tozalang.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-3">
+        <div className="grid grid-cols-1 gap-3.5">
           {places.map((place) => (
             <PlaceCard key={place.id} place={place} />
           ))}
@@ -85,8 +85,8 @@ export default function SearchPage() {
     <Suspense
       fallback={
         <div className="flex items-center justify-center py-12 text-slate-400 gap-2">
-          <RefreshCw className="w-5 h-5 animate-spin" />
-          <span className="text-xs font-medium">Loading search...</span>
+          <RefreshCw className="w-5 h-5 animate-spin text-emerald-500" />
+          <span className="text-xs font-semibold">Qidiruv sahifasi yuklanmoqda...</span>
         </div>
       }
     >
